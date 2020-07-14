@@ -23,7 +23,7 @@ provider "google" {
 
 
 module "module-gke" {
-  source = "app.terraform.io/akb-test/module-gke/gcp"
+  source = "app.terraform.io/universalexports/module-gke/gcp"
   organization-name = var.organization-name
   workspace-name = var.workspace-name
   creds = base64decode(data.terraform_remote_state.project.outputs.service_account_token)
