@@ -1,2 +1,1 @@
-# GCP-GKE-Consul
-HashiCorp Enterprise Consul in GKE
+# GCP-IOT-DATATEAMPROJECT
