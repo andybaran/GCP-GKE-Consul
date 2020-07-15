@@ -2,7 +2,7 @@ data "terraform_remote_state" "project" {
   backend = "remote"
 
   config = {
-    hostname = "gcp-tfe.andybaran.cloud"
+    hostname = var.remote-hostname
     organization = var.organization-name
     workspaces = {
       name = var.workspace-name
@@ -26,6 +26,7 @@ module "module-gke" {
   source  = "gcp-tfe.andybaran.cloud/universalexports/module-gke/gcp"
   organization-name = var.organization-name
   workspace-name = var.workspace-name
+  remote-hostname = var.remote-hostname
   creds = base64decode(data.terraform_remote_state.project.outputs.service_account_token)
   gcloud_project = data.terraform_remote_state.project.outputs.short_project_id
   region = var.region

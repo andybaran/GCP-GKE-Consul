@@ -37,3 +37,7 @@ variable "primary-node-pool" {
 variable "consul-enterprise-key" {
   description = "Consul enterprise licensing"
 }
+
+variable "remote-hostname" {
+  description = "Hostname of TFE server storing remote state"
+}
