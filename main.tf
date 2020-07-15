@@ -2,7 +2,7 @@ data "terraform_remote_state" "project" {
   backend = "remote"
 
   config = {
-    hostname = "app.terraform.io"
+    hostname = "gcp-tfe.andybaran.cloud"
     organization = var.organization-name
     workspaces = {
       name = var.workspace-name
