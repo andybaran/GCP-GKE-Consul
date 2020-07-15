@@ -138,9 +138,9 @@ resource "helm_release" "helm_consul" {
     value = false
   }
 
- /* set {
+  set {
     name = "affinity"
     value = false
-  }*/
+  }
 
 }
