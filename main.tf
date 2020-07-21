@@ -65,8 +65,8 @@ resource "kubernetes_secret" "consulLicense" {
 
 resource "kubernetes_namespace" "consul_k8s_namespace" {
   metadata {
+    name = var.k8s-namespace
   }
-  name = var.k8s-namespace
 }
 
 # ****************************************************************************
