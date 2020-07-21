@@ -56,4 +56,6 @@ variable "helm-chart-version" {
 
 variable "k8s-namespace" {
   description = "Namespace to deploy Consul to"
+  type=string
+  default = "consul-namespace"
 }
