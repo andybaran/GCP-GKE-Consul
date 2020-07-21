@@ -63,6 +63,12 @@ resource "kubernetes_secret" "consulLicense" {
   type = "Opaque"
 }
 
+resource "kubernetes_namespace" "consul_k8s_namespace" {
+  metadata {
+  }
+  name = var.k8s-namespace
+}
+
 # ****************************************************************************
 # Consul via Helm
 # ****************************************************************************
@@ -86,7 +92,8 @@ resource "helm_release" "helm_consul" {
   name = "consul"
   repository = "https://helm.releases.hashicorp.com"
   chart = "consul"
-  version = "0.21.0"
+  version = var.helm-chart-version
+  namespace = kubernetes_namespace.consul_k8s_namespace.name
 
   lint = true
   timeout = 600
@@ -140,7 +147,7 @@ resource "helm_release" "helm_consul" {
 
   set {
     name = "affinity"
-    value = false
+    value = var.set-affinity
   }
 
 }

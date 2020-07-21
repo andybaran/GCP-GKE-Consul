@@ -41,3 +41,19 @@ variable "consul-enterprise-key" {
 variable "remote-hostname" {
   description = "Hostname of TFE server storing remote state"
 }
+
+variable "set-affinity" {
+  description = "helm set-affinity value"
+  type = string 
+  default ="true"
+}
+
+variable "helm-chart-version" {
+  description = "Consul helm chart version"
+  type = string
+  default = "0.21.0"
+  }
+
+variable "k8s-namespace" {
+  description = "Namespace to deploy Consul to"
+}
