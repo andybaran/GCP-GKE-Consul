@@ -93,7 +93,7 @@ resource "helm_release" "helm_consul" {
   repository = "https://helm.releases.hashicorp.com"
   chart = "consul"
   version = var.helm-chart-version
-  namespace = kubernetes_namespace.consul_k8s_namespace.name
+  namespace = var.k8s-namespace
 
   lint = true
   timeout = 600
