@@ -42,12 +42,6 @@ variable "remote-hostname" {
   description = "Hostname of TFE server storing remote state"
 }
 
-variable "set-affinity" {
-  description = "helm set-affinity value"
-  type = string 
-  default = "true"
-}
-
 variable "helm-chart-version" {
   description = "Consul helm chart version"
   type = string

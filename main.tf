@@ -162,11 +162,6 @@ resource "helm_release" "helm_consul" {
     value = true
   }
 
-  set {
-    name = "server.affinity"
-    value = var.set-affinity
-  }
-
 ####Client
 
   set {
@@ -193,5 +188,5 @@ resource "helm_release" "helm_consul" {
     name = "connectInject.default"
     value = false
   }
-  
+
 }
