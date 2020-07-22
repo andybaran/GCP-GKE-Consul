@@ -74,12 +74,9 @@ resource "kubernetes_secret" "consulLicense" {
   type = "Opaque"
 }
 
-
-
 # ****************************************************************************
 # Consul via Helm
 # ****************************************************************************
-
 
 ## Wait 30 seconds to let GKE "settle"
 
@@ -117,7 +114,34 @@ resource "helm_release" "helm_consul" {
   timeout = 600
   atomic = false
 
+####Globals
 
+  set {
+    name = "global.enabled"
+    value = true
+  }
+
+  set {
+    name = "global.name"
+    value = "consul-"
+  }
+
+  set {
+    name = "global.image"
+    value = "consul:1.8.0"
+  }
+
+  set {
+    name = "global.datacenter"
+    value = "dc01"
+  }
+
+  set {
+    name = "global.acls.manageSystemACLs"
+    value = true
+  }
+
+####Server
   set {
     name = "server.replicas"
     value = 3
@@ -127,20 +151,10 @@ resource "helm_release" "helm_consul" {
     name = "server.bootstrapExpect"
     value = 3
   }
-  
-  set {
-    name = "ui.service.type"
-    value = "LoadBalancer"
-  }
 
   set {
     name = "server.enterpriseLicense.consulLicense"
     value = "consullicense"
-  }
-
-  set {
-    name = "server.enterpriseLicense.entKey"
-    value = "key"
   }
 
   set {
@@ -149,9 +163,26 @@ resource "helm_release" "helm_consul" {
   }
 
   set {
+    name = "server.affinity"
+    value = var.set-affinity
+  }
+
+####Client
+
+  set {
     name = "client.grpc"
     value = true
   }
+  
+
+####UI
+
+  set {
+    name = "ui.service.type"
+    value = "LoadBalancer"
+  }
+
+####ConnectInject
 
   set {
     name = "connectInject.enabled"
@@ -162,15 +193,5 @@ resource "helm_release" "helm_consul" {
     name = "connectInject.default"
     value = false
   }
-
-  set {
-    name = "affinity"
-    value = var.set-affinity
-  }
-
-  set {
-    name = "acls.manageSystemACLs"
-    value = true
-  }
-
+  
 }
