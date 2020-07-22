@@ -45,7 +45,7 @@ variable "remote-hostname" {
 variable "set-affinity" {
   description = "helm set-affinity value"
   type = string 
-  default ="true"
+  default = "true"
 }
 
 variable "helm-chart-version" {
