@@ -150,4 +150,9 @@ resource "helm_release" "helm_consul" {
     value = var.set-affinity
   }
 
+  set {
+    name = "acls.manageSystemACLs"
+    value = true
+  }
+
 }
