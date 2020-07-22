@@ -17,6 +17,8 @@ provider "google" {
   zone = var.zone
 }
 
+
+
 # ****************************************************************************
 # Kubernetes
 # ****************************************************************************
@@ -51,8 +53,17 @@ provider "kubernetes" {
   )
 }
 
+resource "kubernetes_namespace" "consul_k8s_namespace" {
+  
+  metadata {
+    name = var.k8s-namespace
+  }
+}
+
 resource "kubernetes_secret" "consulLicense" {
-   metadata {
+  depends_on = [kubernetes_namespace.consul_k8s_namespace]
+
+  metadata {
     name = "consul-license"
   }
 
@@ -63,15 +74,22 @@ resource "kubernetes_secret" "consulLicense" {
   type = "Opaque"
 }
 
-resource "kubernetes_namespace" "consul_k8s_namespace" {
-  metadata {
-    name = var.k8s-namespace
-  }
-}
+
 
 # ****************************************************************************
 # Consul via Helm
 # ****************************************************************************
+
+
+## Wait 30 seconds to let GKE "settle"
+
+provider "time" {}
+
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [kubernetes_secret.consulLicense]
+
+  create_duration = "30s"
+}
 
 provider "helm" {
   kubernetes {
@@ -87,7 +105,7 @@ provider "helm" {
 
 resource "helm_release" "helm_consul" {
 
-  depends_on = [kubernetes_secret.consulLicense]
+  depends_on = [time_sleep.wait_30_seconds]
 
   name = "consul"
   repository = "https://helm.releases.hashicorp.com"
