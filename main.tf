@@ -1,3 +1,13 @@
+terraform {
+    required_version = ">= 0.12.0"
+    required_providers {
+        google = "~> 3.24.0",
+        time = "~> 0.5.0",
+        helm = "~> 1.3.0"
+    }
+}
+
+# Presumably our admins created a project for us using TFE and we're going to get info about that project from the resulting workspace.
 data "terraform_remote_state" "project" {
   backend = "remote"
 
@@ -78,13 +88,10 @@ resource "kubernetes_secret" "consulLicense" {
 # Consul via Helm
 # ****************************************************************************
 
-## Wait 30 seconds to let GKE "settle"
-
+## Wait 30 seconds to let GKE "settle"..otherwise we'll going to inconsistently hit frustating API timeouts
 provider "time" {}
-
 resource "time_sleep" "wait_30_seconds" {
   depends_on = [kubernetes_secret.consulLicense]
-
   create_duration = "30s"
 }
 
