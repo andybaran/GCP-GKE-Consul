@@ -28,14 +28,14 @@ provider "google" {
 }
 
 
-
 # ****************************************************************************
 # Kubernetes
 # ****************************************************************************
 
 
 module "module-gke" {
-  source  = "gcp-tfe.andybaran.cloud/universalexports/module-gke/gcp"
+  source  = "app.terraform.io/akb/module-gke/gcp"
+  version = "0.8.14"
   organization-name = var.organization-name
   workspace-name = var.workspace-name
   remote-hostname = var.remote-hostname
@@ -88,7 +88,7 @@ resource "kubernetes_secret" "consulLicense" {
 # Consul via Helm
 # ****************************************************************************
 
-## Wait 30 seconds to let GKE "settle"..otherwise we'll going to inconsistently hit frustating API timeouts
+## Wait 30 seconds to let GKE "settle"..otherwise we're going to inconsistently hit frustating issues
 provider "time" {}
 resource "time_sleep" "wait_30_seconds" {
   depends_on = [kubernetes_secret.consulLicense]
